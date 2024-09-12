@@ -1,9 +1,9 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../components/button';
 import { FormEvent, useEffect, useState } from 'react';
 import { productsApi, ProductType } from '../api/products';
 import Loading from '../components/loading';
-import { API_FILES, CURRENCY } from '../utils/constants';
+import { API_FILES, CURRENCY, ROUTES } from '../utils/constants';
 import replaceKeysInUrl from '../utils/replaceKeysInUrl';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import useProfile from '../hooks/useProfile';
@@ -14,11 +14,12 @@ import { cartActions, selectCart } from '../slices/cartSlice';
 
 function Product() {
   const { id = '' } = useParams();
-  const { user } = useProfile();
+  const { user, isAuthenticated } = useProfile();
   const { data, isLoading, isError } = useSelector(selectProduct);
   const { data: cartData } = useSelector(selectCart);
   const [activeImage, setActiveImage] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(productActions.getProduct(id));
@@ -30,6 +31,13 @@ function Product() {
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!isAuthenticated) {
+      if (confirm('You need to login before adding products to cart')) {
+        navigate(ROUTES.LOGIN);
+        return;
+      }
+    }
+
     dispatch(
       cartActions.addProductToCart({ userId: user?.id, productId: data.id })
     );

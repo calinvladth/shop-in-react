@@ -2,7 +2,7 @@ const API = 'http://127.0.0.1:8090/'
 const API_FILES = 'http://127.0.0.1:8090/api/files/:collectionId/:itemId/:fileName'
 
 const ROUTES = {
-    SHOP: '/shop',
+    SHOP: '/',
     PRODUCT: '/product/:id',
     CART: '/cart',
     WISHLIST: '/wishlist',

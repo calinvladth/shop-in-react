@@ -9,6 +9,9 @@ import { validation } from '../utils/validation';
 import { ordersActions, selectOrders } from '../slices/orderSlice';
 import Loading from '../components/loading';
 import formatDate from '../utils/formatDate';
+import pb from '../utils/pb';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../utils/constants';
 
 function Account() {
   const { user } = useProfile();
@@ -25,6 +28,7 @@ function Account() {
   const [isFormExpanded, setIsFormExpanded] = useState(true);
   const [isOrdersExpanded, setIsOrdersExpanded] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     fullName: '',
@@ -193,6 +197,17 @@ function Account() {
           ))}
         </div>
       )}
+
+      <div className="mt-5">
+        <Button
+          onClick={() => {
+            pb.authStore.clear();
+            navigate(ROUTES.SHOP);
+          }}
+        >
+          <p className="text-red-500">Logout</p>
+        </Button>
+      </div>
     </div>
   );
 }

@@ -35,13 +35,20 @@ function App() {
           <Route path={ROUTES.SHOP} element={<Shop />} />
           <Route path={ROUTES.PRODUCT} element={<Product />} />
           <Route path={ROUTES.CART} element={<Cart />} />
-          <Route path={ROUTES.CHECKOUT} element={<Checkout />} />
-          <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccess />} />
 
-          <Route path={ROUTES.ACCOUNT} element={<Account />} />
+          {isAuthenticated ? (
+            <>
+              <Route path={ROUTES.CHECKOUT} element={<Checkout />} />
+              <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccess />} />
 
-          <Route path={ROUTES.LOGIN} element={<Login />} />
-          <Route path={ROUTES.REGISTER} element={<Register />} />
+              <Route path={ROUTES.ACCOUNT} element={<Account />} />
+            </>
+          ) : (
+            <>
+              <Route path={ROUTES.LOGIN} element={<Login />} />
+              <Route path={ROUTES.REGISTER} element={<Register />} />
+            </>
+          )}
 
           <Route path="*" element={<NoMatch />} />
         </Route>
