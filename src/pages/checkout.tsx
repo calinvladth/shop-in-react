@@ -11,6 +11,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { ordersActions } from '../slices/orderSlice';
 import { selectAccount } from '../slices/accountSlice';
 import { validation } from '../utils/validation';
+import ErrorMessage from '../components/errorMessage';
 
 function Checkout() {
   const { user } = useProfile();
@@ -96,7 +97,7 @@ function Checkout() {
   }
 
   if (isCartError || isAccountError) {
-    return <p>An error occurred</p>;
+    return <ErrorMessage />;
   }
 
   if (!cartData?.expand?.products.length) {

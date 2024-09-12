@@ -3,14 +3,17 @@ import InputGroup from '../components/inputGroup';
 import { validation } from '../utils/validation';
 import Button from '../components/button';
 import { Link, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../utils/constants';
+import { ALERT_TYPE, ROUTES } from '../utils/constants';
 import { AuthenticationApi } from '../api/authentication';
+import { useDispatch } from 'react-redux';
+import { alertActions } from '../slices/alertSlice';
 
 function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [formError, setFormError] = useState({ email: false, password: false });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -29,6 +32,20 @@ function Login() {
         data: form,
         cb: () => {
           navigate(ROUTES.SHOP);
+          dispatch(
+            alertActions.handleMessage({
+              type: ALERT_TYPE.SUCCESS,
+              message: 'Welcome!',
+            })
+          );
+        },
+        cbError: () => {
+          dispatch(
+            alertActions.handleMessage({
+              type: ALERT_TYPE.ERROR,
+              message: 'Login unavailable',
+            })
+          );
         },
       });
     }

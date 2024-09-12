@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import handleRequestErrors from "../utils/handleRequestErrors"
 import { orderApi, OrderType } from "../api/order"
 import { cartActions } from "./cartSlice"
+import { ALERT_TYPE } from "../utils/constants"
+import { alertActions } from "./alertSlice"
+import handleRequestErrors from "../utils/handleRequestErrors"
 
 interface OrderState {
     id: string,
@@ -21,10 +23,11 @@ const initialState: OrderState = {
     isAddError: false
 }
 
-export const getOrders = createAsyncThunk('orders/getOrders', async (userId: string, { rejectWithValue }) => {
+export const getOrders = createAsyncThunk('orders/getOrders', async (userId: string, { dispatch, rejectWithValue }) => {
     try {
         return await orderApi.listOrders(userId)
     } catch (err) {
+        dispatch(alertActions.handleMessage({ type: ALERT_TYPE.ERROR, message: 'Something went wrong, try again later' }))
 
         return rejectWithValue(handleRequestErrors(err))
     }
@@ -38,6 +41,8 @@ export const createOrder = createAsyncThunk('orders/createOrder', async ({ data,
 
         cb()
     } catch (err) {
+        dispatch(alertActions.handleMessage({ type: ALERT_TYPE.ERROR, message: 'Something went wrong, try again later' }))
+
         return rejectWithValue(handleRequestErrors(err))
     }
 })

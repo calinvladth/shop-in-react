@@ -17,7 +17,6 @@ import Account from './pages/account';
 import { accountActions } from './slices/accountSlice';
 
 function App() {
-  // TODO: Handle restricted routes
   const { user, isAuthenticated } = useProfile();
 
   const dispatch = useDispatch();
@@ -26,6 +25,8 @@ function App() {
     if (isAuthenticated) {
       dispatch(accountActions.getProfile(user.id));
       dispatch(cartActions.getCart(user.id));
+    } else {
+      dispatch(cartActions.emptyCart());
     }
   }, [isAuthenticated, dispatch]);
   return (

@@ -5,6 +5,7 @@ import Product from '../components/product';
 import Button from '../components/button';
 import { useDispatch, useSelector } from 'react-redux';
 import { productsActions, selectProducts } from '../slices/productsSlice';
+import ErrorMessage from '../components/errorMessage';
 
 function Shop() {
   const { data, isLoading, isError } = useSelector(selectProducts);
@@ -31,7 +32,7 @@ function Shop() {
   }
 
   if (isError) {
-    return <p>An error occurred</p>;
+    return <ErrorMessage />;
   }
 
   return (
@@ -54,9 +55,6 @@ function Shop() {
             <label className="text-sm">Sort by</label>
             <select
               value={filters.sortBy}
-              onLoad={(e) => {
-                console.log(e.target.value);
-              }}
               onChange={(e) =>
                 setFilters((prev) => ({ ...prev, sortBy: e.target.value }))
               }

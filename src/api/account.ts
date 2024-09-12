@@ -16,7 +16,7 @@ function createProfile(userId: string) {
     return pb.collection('user_profile').create({ user: userId })
 }
 
-function updateProfile({ profileId, data }: { userId: string, data: AccountType }) {
+function updateProfile({ profileId, data }: { profileId: string, data: AccountType }) {
     return pb.collection('user_profile').update(profileId, data)
 }
 

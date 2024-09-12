@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { productsApi, ProductsFiltersType, ProductType } from "../api/products"
+import { productsApi, ProductType } from "../api/products"
+import { ALERT_TYPE } from "../utils/constants"
+import { alertActions } from "./alertSlice"
 import handleRequestErrors from "../utils/handleRequestErrors"
 
 interface ProductState {
@@ -21,10 +23,12 @@ const initialState: ProductState = {
     isError: false
 }
 
-export const getProduct = createAsyncThunk('product/getProduct', async (id: string, { rejectWithValue }) => {
+export const getProduct = createAsyncThunk('product/getProduct', async (id: string, { dispatch, rejectWithValue }) => {
     try {
         return await productsApi.listById(id)
     } catch (err) {
+        dispatch(alertActions.handleMessage({ type: ALERT_TYPE.ERROR, message: 'Something went wrong, try again later' }))
+
         return rejectWithValue(handleRequestErrors(err))
     }
 })

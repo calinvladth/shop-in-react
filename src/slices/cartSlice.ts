@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import handleRequestErrors from "../utils/handleRequestErrors"
 import { cartApi, CartType } from "../api/cart"
+import { alertActions } from "./alertSlice"
+import { ALERT_TYPE } from "../utils/constants"
+import handleRequestErrors from "../utils/handleRequestErrors"
 
 interface CartState {
     id: string,
@@ -29,7 +31,7 @@ const initialState: CartState = {
     isAddError: false
 }
 
-export const getCart = createAsyncThunk('cart/getCart', async (userId: string, { rejectWithValue }) => {
+export const getCart = createAsyncThunk('cart/getCart', async (userId: string, { dispatch, rejectWithValue }) => {
     try {
         return await cartApi.listProducts(userId)
     } catch (err) {
@@ -37,11 +39,13 @@ export const getCart = createAsyncThunk('cart/getCart', async (userId: string, {
             return await cartApi.create(userId)
         }
 
+        dispatch(alertActions.handleMessage({ type: ALERT_TYPE.ERROR, message: 'Something went wrong, try again later' }))
+
         return rejectWithValue(handleRequestErrors(err))
     }
 })
 
-export const clearCart = createAsyncThunk('cart/clearCart', async (userId: string, { getState, rejectWithValue }) => {
+export const clearCart = createAsyncThunk('cart/clearCart', async (userId: string, { getState, dispatch, rejectWithValue }) => {
     try {
         const { cart } = getState()
 
@@ -50,11 +54,11 @@ export const clearCart = createAsyncThunk('cart/clearCart', async (userId: strin
             isActive: false
         }
 
-        console.log('UUU: ', userId)
-
         await cartApi.updateCart({ cartId: cart.data.id, data })
         return await cartApi.create(userId)
     } catch (err) {
+        dispatch(alertActions.handleMessage({ type: ALERT_TYPE.ERROR, message: 'Something went wrong, try again later' }))
+
         return rejectWithValue(handleRequestErrors(err))
     }
 })
@@ -69,8 +73,12 @@ export const addProductToCart = createAsyncThunk('cart/addProductToCart', async 
         }
 
         await cartApi.updateCart({ cartId: cart.data.id, data })
+
+        dispatch(alertActions.handleMessage({ type: ALERT_TYPE.SUCCESS, message: 'Item added from cart' }))
         dispatch(getCart(userId))
     } catch (err) {
+        dispatch(alertActions.handleMessage({ type: ALERT_TYPE.ERROR, message: 'Something went wrong, try again later' }))
+
         return rejectWithValue(handleRequestErrors(err))
     }
 })
@@ -93,8 +101,11 @@ export const removeProductFromCart = createAsyncThunk('cart/removeProductFromCar
             cartId: cart.data.id, data
         })
 
+        dispatch(alertActions.handleMessage({ type: ALERT_TYPE.WARNING, message: 'Item removed from cart' }))
         dispatch(getCart(userId))
     } catch (err) {
+        dispatch(alertActions.handleMessage({ type: ALERT_TYPE.ERROR, message: 'Something went wrong, try again later' }))
+
         return rejectWithValue(handleRequestErrors(err))
     }
 })
@@ -103,7 +114,11 @@ export const removeProductFromCart = createAsyncThunk('cart/removeProductFromCar
 export const cartSlice = createSlice({
     name: 'cart',
     initialState,
-    reducers: {},
+    reducers: {
+        emptyCart: (state) => {
+            state.data = {}
+        }
+    },
     extraReducers: builder => {
         builder
             .addCase(getCart.fulfilled, (state, { payload }) => {
@@ -197,11 +212,13 @@ export const cartSlice = createSlice({
 
 export const selectCart = (state: { cart: CartState }) => state.cart
 
+
 export const cartActions = {
     getCart,
     clearCart,
     addProductToCart,
-    removeProductFromCart
+    removeProductFromCart,
+    emptyCart: cartSlice.actions.emptyCart
 }
 
 export default cartSlice.reducer

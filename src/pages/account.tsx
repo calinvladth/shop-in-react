@@ -11,7 +11,9 @@ import Loading from '../components/loading';
 import formatDate from '../utils/formatDate';
 import pb from '../utils/pb';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../utils/constants';
+import { ALERT_TYPE, ROUTES } from '../utils/constants';
+import { alertActions } from '../slices/alertSlice';
+import ErrorMessage from '../components/errorMessage';
 
 function Account() {
   const { user } = useProfile();
@@ -95,7 +97,7 @@ function Account() {
   }
 
   if (isAccountError && isOrdersError) {
-    return <p>An error occurred</p>;
+    return <ErrorMessage />;
   }
 
   return (
@@ -189,6 +191,12 @@ function Account() {
               className="flex justify-between items-center p-5 border border-black cursor-pointer"
               onClick={() => {
                 alert('This can go to order detail page');
+                dispatch(
+                  alertActions.handleMessage({
+                    type: ALERT_TYPE.WARNING,
+                    message: 'Order details not implemented',
+                  })
+                );
               }}
             >
               <p>Order ID: {order.id}</p>
@@ -203,6 +211,12 @@ function Account() {
           onClick={() => {
             pb.authStore.clear();
             navigate(ROUTES.SHOP);
+            dispatch(
+              alertActions.handleMessage({
+                type: ALERT_TYPE.SUCCESS,
+                message: 'You logged out',
+              })
+            );
           }}
         >
           <p className="text-red-500">Logout</p>

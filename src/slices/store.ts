@@ -4,13 +4,15 @@ import productsReducer from './productsSlice'
 import productReducer from './productSlice'
 import cartReducer from './cartSlice'
 import ordersReducer from './orderSlice'
+import alertReducer from './alertSlice'
 
 const rootReducer = combineReducers({
     account: accountReducer,
     products: productsReducer,
     product: productReducer,
     cart: cartReducer,
-    orders: ordersReducer
+    orders: ordersReducer,
+    alert: alertReducer
 })
 
 

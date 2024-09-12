@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import CartItem from '../components/cartItem';
 import { selectCart } from '../slices/cartSlice';
+import ErrorMessage from '../components/errorMessage';
 
 function Cart() {
   const { user } = useProfile();
@@ -16,7 +17,7 @@ function Cart() {
   }
 
   if (isError) {
-    return <p>An error occurred</p>;
+    return <ErrorMessage />;
   }
 
   if (!data?.expand?.products.length) {

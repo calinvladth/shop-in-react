@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Navigation from '../components/navigation';
+import Banner from '../components/banner';
 
 function Layout() {
   return (
@@ -11,6 +12,7 @@ function Layout() {
       <div className="overflow-auto h-full">
         <Outlet />
       </div>
+      <Banner />
     </div>
   );
 }

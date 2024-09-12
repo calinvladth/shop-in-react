@@ -18,9 +18,19 @@ const CURRENCY = {
     SYMBOL: '€'
 }
 
+const ALERT_TYPE = {
+    SUCCESS: "SUCCESS",
+    ERROR: "ERROR",
+    WARNING: "WARNING"
+}
+
+const ALERT_REMOVAL_DELAY = 5000 // 5000ms =  5 seconds
+
 export {
     API,
     API_FILES,
     ROUTES,
-    CURRENCY
+    CURRENCY,
+    ALERT_TYPE,
+    ALERT_REMOVAL_DELAY
 }

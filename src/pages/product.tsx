@@ -3,7 +3,7 @@ import Button from '../components/button';
 import { FormEvent, useEffect, useState } from 'react';
 import { productsApi, ProductType } from '../api/products';
 import Loading from '../components/loading';
-import { API_FILES, CURRENCY, ROUTES } from '../utils/constants';
+import { ALERT_TYPE, API_FILES, CURRENCY, ROUTES } from '../utils/constants';
 import replaceKeysInUrl from '../utils/replaceKeysInUrl';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import useProfile from '../hooks/useProfile';
@@ -11,6 +11,8 @@ import { cartApi } from '../api/cart';
 import { useDispatch, useSelector } from 'react-redux';
 import { productActions, selectProduct } from '../slices/productSlice';
 import { cartActions, selectCart } from '../slices/cartSlice';
+import { alertActions } from '../slices/alertSlice';
+import ErrorMessage from '../components/errorMessage';
 
 function Product() {
   const { id = '' } = useParams();
@@ -36,6 +38,7 @@ function Product() {
         navigate(ROUTES.LOGIN);
         return;
       }
+      return;
     }
 
     dispatch(
@@ -48,13 +51,13 @@ function Product() {
   }
 
   if (isError) {
-    return <p>An error occurred</p>;
+    return <ErrorMessage />;
   }
 
   return (
-    <div className="w-full h-full border border-pink-500 flex">
+    <div className="w-full h-full flex">
       <div
-        className="w-1/2 h-full border border-black bg-center bg-no-repeat bg-cover relative"
+        className="w-1/2 h-full border-r border-black bg-center bg-no-repeat bg-cover relative"
         style={{
           backgroundImage: `url(${replaceKeysInUrl(API_FILES, { collectionId: data?.collectionId as string, itemId: data?.id as string, fileName: activeImage })})`,
         }}
@@ -113,7 +116,12 @@ function Product() {
             type="button"
             className="border-none"
             onClick={() => {
-              alert('Not implemented');
+              dispatch(
+                alertActions.handleMessage({
+                  type: ALERT_TYPE.WARNING,
+                  message: 'Wishlist not implemented',
+                })
+              );
             }}
           >
             <HeartIcon className="size-7" />

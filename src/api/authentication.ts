@@ -10,23 +10,25 @@ type AuthenticationFormError = {
     password: boolean;
 }
 
-async function login({ data, cb }: { data: AuthenticationForm, cb: () => void }) {
+async function login({ data, cb, cbError }: { data: AuthenticationForm, cb: () => void, cbError: () => void }) {
     try {
         await pb.collection('users').authWithPassword(data.email, data.password)
+
         cb()
     } catch (err) {
-        // errorHandler(err)
+        cbError()
     }
 
 }
 
-async function register({ data, cb }: { data: AuthenticationForm, cb: () => void }) {
+async function register({ data, cb, cbError }: { data: AuthenticationForm, cb: () => void, cbError: () => void }) {
     try {
         await pb.collection('users').create({ ...data, passwordConfirm: data.password });
         await pb.collection('users').authWithPassword(data.email, data.password)
+
         cb()
     } catch (err) {
-        // errorHandler(err)
+        cbError()
     }
 
 }
