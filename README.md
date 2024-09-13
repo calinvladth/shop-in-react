@@ -21,6 +21,8 @@ On checkout submit -> Order success page, cart was emptied.
 
 In account, you can update your billing address and see your orders history.
 
+You can check [IMPROVEMENT_IDEAS](/IMPROVEMENT_IDEAS.md) have a little bit of fun. Here is a list of suggested tasks that can be done for this project. You can check some boxes or even come up with new suggestions.
+
 
 ## What to do with this project
 You can use this project however you want.
