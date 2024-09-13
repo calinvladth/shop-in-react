@@ -190,7 +190,6 @@ function Account() {
               key={order.id}
               className="flex justify-between items-center p-5 border border-black cursor-pointer"
               onClick={() => {
-                alert('This can go to order detail page');
                 dispatch(
                   alertActions.handleMessage({
                     type: ALERT_TYPE.WARNING,
