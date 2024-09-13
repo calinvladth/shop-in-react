@@ -1,50 +1,42 @@
-# React + TypeScript + Vite
+## About this project
+This is a basic online shop written with [React](https://react.dev). 
+The data is stored in an sqlite managed by [Pocketbase](https://pocketbase.io/docs/).
+It uses [Redux toolkit](https://redux-toolkit.js.org) for state management. 
+For styling I used [Tailwind](https://tailwindcss.com). This was my 2'nd project with it and I find it very comfortable to use.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The online shop is in a bare minimum state.
+That means you can view the shop products -> add the product to cart (the cart is saved in DB).
+From the cart, you have the list of products and the total price -> go to checkout.
+In checkout, you have the list of products, the total and a form for address (the form will autocomplete from DB with user's data, if any)
+On checkout submit -> Order success page, cart was emptied.
+In account, you can update your billing address and see your orders history.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What to do with this project
+You can use this project however you want.
+Contribute, and I will check your PR.
+Use it on your own, make something out of it.
 
-## Expanding the ESLint configuration
+If you have questions, let me know.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
+## Getting started
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+$ yarn install
+$ yarn start
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
+$ cd ./pb
+$ ./pocketbase serve
+```
+
+You will need to create products from pocketbase to populate the shop. I will probably post a video about that somewhere in this document.
+
+## Building and deploy
+-  Read the docs and have fun
+
+
+
+
