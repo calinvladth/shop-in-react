@@ -1,0 +1,33 @@
+This file will cover some improvement ideas for the shop. You can also consider it a list of possible tasks.
+
+- [ ] Create wishlist page
+- [ ] Create wishlist redux slice
+- [ ] Create wishlist schema in DB
+- [ ] From product page, add product to wishlist
+- [ ] From wishlist page, remove product
+---
+- [ ] Save item to cart for unauthenticated users
+- [ ] On user login, if no items in cart, update user's cart with local stored data
+- [ ] On user register, update cart with local stored data
+- [ ] On cart update with local store data, clear local store data
+---
+- [ ] All flow working for unauthenticated users. Cart with data from local store, Checkout with data from local store, Submit as an unauthenticated user
+- [ ] Show order history for unauthenticated users. If you did an order as an unauthenticated user, after you make an account, if the account mathes the email, you can see the orders from order history
+---
+- [ ] Create order history page
+- [ ] Order details should display products, total price (unaffected by a price change in products), payment type, billind info
+- [ ] On order, modify schema to save products directly to it. Currently from order you can access the products because cart is linked to the order. 
+---
+- [ ] Make a separate page for user info management (currently address form)
+- [ ] From user management page, change username, email, password
+- [ ] From user management page, handle billing address
+---
+- [ ] Handle multiple billing addresses. On user management page, you can view all addresses and select the primary
+- [ ] Autocomplete form from checkout with primary address
+- [ ] On checkout, have the option to autocomplete with another address, on user action
+---
+- [ ] Modify schemas for product quantity in cart
+- [ ] Modify schema for other product options in cart (product color, product material, product whatever)
+---
+- [ ] Update react app from single page app to SSR
+- [ ] Implement meta (page title, page description, page image ...)
